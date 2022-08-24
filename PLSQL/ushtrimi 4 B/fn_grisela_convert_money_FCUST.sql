@@ -10,7 +10,7 @@ l_mid_rate varchar(200);
 
 begin
   
-  l_mid_rate:= pr_grisela_MID_RATE_FCUST(p_branch_code ,p_ccy1  ,p_ccy2 ); --get the mid_rate from the function
+  l_mid_rate:= fn_grisela_MID_RATE_FCUST(p_branch_code ,p_ccy1  ,p_ccy2 ); --get the mid_rate from the function
   
   if l_mid_rate='Kto CCY nuk egzistojne ne databaze' then 
       raise l_ccy_dont_exists; --errror if ccyt doesnt exists in database
