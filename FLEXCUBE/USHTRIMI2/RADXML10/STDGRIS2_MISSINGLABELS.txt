@@ -1,5 +1,0 @@
-No Maintenance For Label Codes..
----------------------------------------------------------------------------------------------------------------
-LBL_ID_MASTER
-LBL_PRODUCT_RESTRICITON
-LBL_REALTIONSHIP

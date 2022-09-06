@@ -1,5 +1,0 @@
-No Maintenance For Label Codes..
----------------------------------------------------------------------------------------------------------------
-LBL_COSTUMER_CATEGORY_ID
-LBL_COSTUMER_CATEGORY
-LBL_MANDATORY_VALIDATIONS

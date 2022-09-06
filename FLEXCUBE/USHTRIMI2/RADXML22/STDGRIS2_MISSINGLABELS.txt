@@ -1,5 +1,0 @@
-No Maintenance For Label Codes..
----------------------------------------------------------------------------------------------------------------
-LBL_MASTER_ID
-LBL_DETAIL_ID
-LBL_CATEGORY_G
