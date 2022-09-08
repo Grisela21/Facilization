@@ -1104,7 +1104,7 @@ CREATE OR REPLACE PACKAGE BODY stpks_stdgris4_main AS
       END IF;
       l_Fld := 'STTMS_GRISELA_MAIN.CCY';
       IF p_wrk_stdgris4.v_sttms_grisela_main.CCY IS NOT NULL THEN
-         SELECT COUNT(*) INTO l_LOV_COUNT  FROM  (SELECT CCY FROM STTM_CCY_HOL_MASTER) WHERE CCY = P_wrk_stdgris4.v_sttms_grisela_main.CCY;
+         SELECT COUNT(*) INTO l_LOV_COUNT  FROM  (SELECT CCY FROM Sttm_CUST_ACCOUNT group by CCY) WHERE CCY = P_wrk_stdgris4.v_sttms_grisela_main.CCY;
          IF l_lov_count = 0  THEN
             Dbg('Invalid Value For The Field  :CCY:'||p_Wrk_stdgris4.v_sttms_grisela_main.CCY);
             Pr_Log_Error(p_Source,'ST-VALS-012',p_Wrk_stdgris4.v_sttms_grisela_main.CCY||'~@STTMS_GRISELA_MAIN.CCY~@STTMS_GRISELA_MAIN') ;
@@ -1112,7 +1112,7 @@ CREATE OR REPLACE PACKAGE BODY stpks_stdgris4_main AS
       END IF;
       l_Fld := 'STTMS_GRISELA_MAIN.COSTUMER_NUMBER';
       IF p_wrk_stdgris4.v_sttms_grisela_main.COSTUMER_NUMBER IS NOT NULL THEN
-         SELECT COUNT(*) INTO l_LOV_COUNT  FROM  (SELECT CUST_NO FROM STTM_CUST_ACCOUNT) WHERE CUST_NO = P_wrk_stdgris4.v_sttms_grisela_main.COSTUMER_NUMBER;
+         SELECT COUNT(*) INTO l_LOV_COUNT  FROM  (SELECT CUSTOMER_NO FROM STTM_CUSTOMER) WHERE CUSTOMER_NO = P_wrk_stdgris4.v_sttms_grisela_main.COSTUMER_NUMBER;
          IF l_lov_count = 0  THEN
             Dbg('Invalid Value For The Field  :COSTUMER_NUMBER:'||p_Wrk_stdgris4.v_sttms_grisela_main.COSTUMER_NUMBER);
             Pr_Log_Error(p_Source,'ST-VALS-012',p_Wrk_stdgris4.v_sttms_grisela_main.COSTUMER_NUMBER||'~@STTMS_GRISELA_MAIN.COSTUMER_NUMBER~@STTMS_GRISELA_MAIN') ;
@@ -2410,8 +2410,8 @@ WHERE reference = U_v_sttms_grisela_detail4(l_index).reference
                p_Record_Master.Key_Id := g_Key_Id;
                p_Record_Master.AUTH_STAT := l_Summary_Rec.AUTH_STAT;
                p_Record_Master.RECORD_STAT := l_Summary_Rec.RECORD_STAT;
-               p_Record_Master.CHAR_FLD_1 := l_Summary_Rec.DESCRIPTION;
-               p_Record_Master.CHAR_FLD_2 := l_Summary_Rec.REFERENCE;
+               p_Record_Master.CHAR_FLD_1 := l_Summary_Rec.REFERENCE;
+               p_Record_Master.CHAR_FLD_2 := l_Summary_Rec.DESCRIPTION;
             END IF;
          END IF;
       END IF;

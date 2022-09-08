@@ -58,7 +58,7 @@ var originSystem = "";
 //----------------------------------------------------------------------------------------------------------------------
 var msgxml_sum=""; 
 msgxml_sum += '    <FLD>'; 
-msgxml_sum += '      <FN PARENT="" RELATION_TYPE="1" TYPE="BLK_MASTER">AUTHSTAT~TXNSTAT~DESCRIPTION~REFERENCE</FN>'; 
+msgxml_sum += '      <FN PARENT="" RELATION_TYPE="1" TYPE="BLK_MASTER">AUTHSTAT~TXNSTAT~REFERENCE~DESCRIPTION</FN>'; 
 msgxml_sum += '    </FLD>'; 
 
 var detailFuncId = "STDGRIS4";
@@ -89,7 +89,8 @@ pkFields[0] = "BLK_MASTER__REFERENCE";
 //----------------------------------------------------------------------------------------------------------------------
 //***** CODE FOR AMENDABLE/SUBSYSTEM Fields *****
 //----------------------------------------------------------------------------------------------------------------------
-var modifyAmendArr = new Array(); 
+//***** Fields Amendable while Modification *****
+var modifyAmendArr = {"BLK_DETAIL":["DESCRIPTION","SUBJECT"],"BLK_MAIN":["ACCOUNT","AMOUNT","CCY","EMAIL","M_DATEI","PHONE_NUMBER","PRIORITY","REFERENCE"],"BLK_MASTER":["DESCRIPTION"]};
 var closeAmendArr = new Array(); 
 var reopenAmendArr = new Array(); 
 var reverseAmendArr = new Array(); 
