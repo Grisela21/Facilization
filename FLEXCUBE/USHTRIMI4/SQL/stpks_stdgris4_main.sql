@@ -1096,7 +1096,7 @@ CREATE OR REPLACE PACKAGE BODY stpks_stdgris4_main AS
       l_Blk := 'STTMS_GRISELA_MAIN';
       l_Fld := 'STTMS_GRISELA_MAIN.ACCOUNT';
       IF p_wrk_stdgris4.v_sttms_grisela_main.ACCOUNT IS NOT NULL THEN
-         SELECT COUNT(*) INTO l_LOV_COUNT  FROM  (SELECT CUST_AC_NO FROM STTM_CUST_ACCOUNT WHERE CCY = P_wrk_stdgris4.v_sttms_grisela_main.CCY) WHERE CUST_AC_NO = P_wrk_stdgris4.v_sttms_grisela_main.ACCOUNT;
+         SELECT COUNT(*) INTO l_LOV_COUNT  FROM  (SELECT CUST_AC_NO,AC_DESC FROM STTM_CUST_ACCOUNT WHERE CCY = P_wrk_stdgris4.v_sttms_grisela_main.CCY AND CUST_NO=P_wrk_stdgris4.v_sttms_grisela_main.COSTUMER_NUMBER) WHERE CUST_AC_NO = P_wrk_stdgris4.v_sttms_grisela_main.ACCOUNT;
          IF l_lov_count = 0  THEN
             Dbg('Invalid Value For The Field  :ACCOUNT:'||p_Wrk_stdgris4.v_sttms_grisela_main.ACCOUNT);
             Pr_Log_Error(p_Source,'ST-VALS-012',p_Wrk_stdgris4.v_sttms_grisela_main.ACCOUNT||'~@STTMS_GRISELA_MAIN.ACCOUNT~@STTMS_GRISELA_MAIN') ;
@@ -1112,7 +1112,7 @@ CREATE OR REPLACE PACKAGE BODY stpks_stdgris4_main AS
       END IF;
       l_Fld := 'STTMS_GRISELA_MAIN.COSTUMER_NUMBER';
       IF p_wrk_stdgris4.v_sttms_grisela_main.COSTUMER_NUMBER IS NOT NULL THEN
-         SELECT COUNT(*) INTO l_LOV_COUNT  FROM  (SELECT CUSTOMER_NO FROM STTM_CUSTOMER) WHERE CUSTOMER_NO = P_wrk_stdgris4.v_sttms_grisela_main.COSTUMER_NUMBER;
+         SELECT COUNT(*) INTO l_LOV_COUNT  FROM  (SELECT STTM_CUSTOMER.Customer_No,STTM_CUSTOMER.Full_Name, Sttm_Cust_Personal.e_Mail, Sttm_Cust_Personal.Telephone FROM (STTM_CUSTOMER INNER JOIN Sttm_Cust_Personal ON STTM_CUSTOMER.Customer_No = Sttm_Cust_Personal.Customer_No)) WHERE CUSTOMER_NO = P_wrk_stdgris4.v_sttms_grisela_main.COSTUMER_NUMBER;
          IF l_lov_count = 0  THEN
             Dbg('Invalid Value For The Field  :COSTUMER_NUMBER:'||p_Wrk_stdgris4.v_sttms_grisela_main.COSTUMER_NUMBER);
             Pr_Log_Error(p_Source,'ST-VALS-012',p_Wrk_stdgris4.v_sttms_grisela_main.COSTUMER_NUMBER||'~@STTMS_GRISELA_MAIN.COSTUMER_NUMBER~@STTMS_GRISELA_MAIN') ;
