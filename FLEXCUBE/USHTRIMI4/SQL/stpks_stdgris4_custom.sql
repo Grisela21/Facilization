@@ -24,7 +24,7 @@ CREATE OR REPLACE PACKAGE BODY stpks_stdgris4_custom AS
      CHANGE HISTORY
      
      SFR Number         :  
-     Changed By         :  
+     Changed By         :  gRI
      Change Description :  
      
      -------------------------------------------------------------------------------------------------------
@@ -88,45 +88,51 @@ CREATE OR REPLACE PACKAGE BODY stpks_stdgris4_custom AS
       n_seq number;
       L_COUNT NUMBER;
       l_char varchar2(1);
-      reference  varchar2(150);
    BEGIN
 
       Dbg('In Fn_Pre_Check_Mandatory');
-           IF p_ACTION_CODE='NEWRECORD' then --- in case we are opening a new screen
-                 Dbg(' NEWRECORD IS EXECUTED'|| p_stdgris4.v_sttms_grisela_ushtrimi4.reference);
-                 BEGIN
-                 n_seq:=GRISELA_USHTRIMI4_SEQ.NEXTVAL;
-                 EXCEPTION
-                    WHEN OTHERS THEN
-                     n_seq:=0;
-                     Dbg(' fAILED TO GENERATE SEQUENCE');
-                 END;
+           IF p_ACTION_CODE='NEWRECORD' then
+           Dbg(' NEWRECORD IS EXECUTED'|| p_stdgris4.v_sttms_grisela_ushtrimi4.reference);
            
-                p_stdgris4.v_sttms_grisela_ushtrimi4.reference:=GLOBAL.user_id||n_seq; --concat the user with a seq
+           BEGIN
+                 n_seq:=GRISELA_USHTRIMI4_SEQ.NEXTVAL;
+            EXCEPTION
+              WHEN OTHERS THEN
+                n_seq:=0;
+                Dbg(' fAILED TO GENERATE SEQUENCE');
+            END;
+            
+            p_stdgris4.v_sttms_grisela_ushtrimi4.reference:=GLOBAL.user_id||n_seq;
             
                  Dbg(' AFTER'|| p_stdgris4.v_sttms_grisela_ushtrimi4.reference);
-            END IF;
+           END IF;
            
-        
+             IF p_ACTION_CODE='COPYRECORD' then
+           Dbg(' COPYRECORD IS EXECUTED'|| p_stdgris4.v_sttms_grisela_ushtrimi4.reference);
+           
+          for var in(select*  from STTM_GRISELA_MAIN where STTM_GRISELA_MAIN.COSTUMER_NUMBER= p_stdgris4.v_sttms_grisela_main.COSTUMER_NUMBER) loop
+
+            p_stdgris4.v_sttms_grisela_ushtrimi4.reference:= var.reference||'C';
+               
+                 end loop;
+           END IF;
           
-            IF p_ACTION_CODE='NEW' or p_ACTION_CODE='MODIFY' then -- in case of a save command or unloc
-              
-                      ---validation for the date not to be in the future
-                      dbg('from front :: ' || TO_DATE( p_stdgris4.v_sttms_grisela_main.m_date, 'yyyy/mm/dd'));
-                      dbg('from sysdate :: ' || GLOBAL.application_date);
-                   IF TO_DATE( p_stdgris4.v_sttms_grisela_main.m_date, 'yyyy/mm/dd')> GLOBAL.application_date THEN 
-                      Pr_Log_Error(p_Function_Id ,p_Source,'GRIS_ERR_3', p_Err_Params);
-                   END IF;
-                      
-                       ---- validation for the high and medium selections
-                   IF  p_stdgris4.v_sttms_grisela_main.priority='HIGH' AND  p_stdgris4.v_sttms_grisela_main.AMOUNT<1000 THEN 
-                       Pr_Log_Error(p_Function_Id ,p_Source,'GRIS_ERR_1', p_Err_Params);
-                   END IF;
-                   IF  p_stdgris4.v_sttms_grisela_main.priority='MEDIUM' AND  p_stdgris4.v_sttms_grisela_main.AMOUNT<500 THEN
-                       Pr_Log_Error(p_Function_Id ,p_Source,'GRIS_ERR_2', p_Err_Params);
-                   END IF;
+           
+           IF p_ACTION_CODE='NEW' then
+             SELECT COUNT(*) INTO L_COUNT FROM STTM_GRISELA_MAIN WHERE STTM_GRISELA_MAIN.COSTUMER_NUMBER=p_stdgris4.v_sttms_grisela_main.COSTUMER_NUMBER;
+              l_char:=SUBSTR(p_stdgris4.v_sttms_grisela_main.reference,-1);
+             IF L_COUNT>0 and l_char!='C' THEN 
+               RETURN FALSE;
+               END IF;
          
-            END IF;
+             IF  p_stdgris4.v_sttms_grisela_main.priority='HIGH' AND  p_stdgris4.v_sttms_grisela_main.AMOUNT<1000 THEN 
+               Pr_Log_Error(p_Function_Id ,p_Source,'GRIS_ERR_1', p_Err_Params); 
+             END IF;
+             IF  p_stdgris4.v_sttms_grisela_main.priority='MEDIUM' AND  p_stdgris4.v_sttms_grisela_main.AMOUNT<500 THEN
+                  Pr_Log_Error(p_Function_Id ,p_Source,'GRIS_ERR_2', p_Err_Params); 
+             END IF;
+         
+           END IF;
            
       Dbg('Returning Success From Fn_Pre_Check_Mandatory..');
       RETURN TRUE;

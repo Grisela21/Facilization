@@ -90,7 +90,7 @@ pkFields[0] = "BLK_MASTER__REFERENCE";
 //***** CODE FOR AMENDABLE/SUBSYSTEM Fields *****
 //----------------------------------------------------------------------------------------------------------------------
 //***** Fields Amendable while Modification *****
-var modifyAmendArr = {"BLK_DETAIL":["DESCRIPTION","SUBJECT"],"BLK_MAIN":["ACCOUNT","AMOUNT","CCY","M_DATEI","PRIORITY","REFERENCE"],"BLK_MASTER":["DESCRIPTION"]};
+var modifyAmendArr = {"BLK_DETAIL":["DESCRIPTION","SUBJECT"],"BLK_MAIN":["ACCOUNT","AMOUNT","CCY","EMAIL","M_DATEI","PHONE_NUMBER","PRIORITY","REFERENCE"],"BLK_MASTER":["DESCRIPTION"]};
 var closeAmendArr = new Array(); 
 var reopenAmendArr = new Array(); 
 var reverseAmendArr = new Array(); 
@@ -108,7 +108,7 @@ var subsysArr    = new Array();
 
 //***** CODE FOR LOVs *****
 //----------------------------------------------------------------------------------------------------------------------
-var lovInfoFlds = {"BLK_MAIN__ACCOUNT__LOV_ACCOUNT_1":["BLK_MAIN__ACCOUNT~~","BLK_MAIN__CCY!varchar2~BLK_MAIN__COSTUMER_NUMBER!varchar2","N~N",""],"BLK_MAIN__CCY__LOV_CCY":["BLK_MAIN__CCY~","","N",""],"BLK_MAIN__COSTUMER_NUMBER__LOV_CUSTOMER_NUMBER":["BLK_MAIN__COSTUMER_NUMBER~BLK_MAIN__COSTUMER_NAME~BLK_MAIN__EMAIL~BLK_MAIN__PHONE_NUMBER~","","N~N~N~N",""]};
+var lovInfoFlds = {"BLK_MAIN__ACCOUNT__LOV_ACCOUNT":["BLK_MAIN__ACCOUNT~","BLK_MAIN__CCY!VARCHAR2","N",""],"BLK_MAIN__CCY__LOV_CCY":["BLK_MAIN__CCY~","","N",""],"BLK_MAIN__COSTUMER_NUMBER__LOV_CUSTOMER_NUMBER":["BLK_MAIN__COSTUMER_NUMBER~","","N",""]};
 var offlineLovInfoFlds = {};
 //----------------------------------------------------------------------------------------------------------------------
 //***** SCRIPT FOR TABS *****
