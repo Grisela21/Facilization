@@ -1,28 +1,44 @@
 package com.example.ushtr1Java.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.annotation.sql.DataSourceDefinition;
 import javax.persistence.*;
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.util.*;
 
 
+@Data
+
+@AllArgsConstructor
 @Entity
 @Transactional
 
 @Table(name = "clients")
 public class Client {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    public Client() {
+    }
 
-    @Column(name = "client_number")
-    private String client_number;
+    public Client(long client_number) {
+        this.client_number=client_number;
+    }
+
+    public Client(long client_number,String name,String address,String telephone_number){
+        this.client_number=client_number;
+        this.name=name;
+        this.address=address;
+        this.telephone_number=telephone_number;
+
+    }
+    @Id
+    // @GeneratedValue(strategy = GenerationType.AUTO)
+    private long client_number;
+
+    //@Column(name = "client_number")
+    //  private String client_number;
 
     @Column(name = "name")
     private String name;
@@ -31,7 +47,7 @@ public class Client {
     private String address;
 
     @Column(name = "telephone_number")
-    private int telephone_number;
+    private String telephone_number;
 
 
 
@@ -43,39 +59,32 @@ public class Client {
     @CreationTimestamp
     private Date updatedAt;
 
-/////lidhgja /////////////////////////////////////////////////////////////////////////
+/////lidhja /////////////////////////////////////////////////////////////////////////
 
     @OneToMany(
-            mappedBy = "client", //sepse kjo eshte tek acccount si obj
+            targetEntity = Account.class,
+            //mappedBy = "client", //sepse kjo eshte tek acccount si obj
             cascade = CascadeType.ALL,
             orphanRemoval = true  //kure fsihet klienti te fshiehn e acc e lidhura
 
     )
-
+    @JoinColumn(name = "client_number", referencedColumnName = "client_number")
+    // @Column(name = "accounts")
     private List<Account> accounts= new ArrayList<>();
 
-    public Client(String name){
-        this.name=name;
-    }
-
-    public String getClient_number() {
-        return client_number;
-    }
 
     public List<Account> getAccounts() {
         return accounts;
     }
 
-    public void setClient_number(String client_number) {
-        this.client_number = client_number;
-    }
+
 
     public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
     }
 
-    public long getId() {
-        return id;
+    public long getClient_number() {
+        return client_number;
     }
 
     public String getName() {
@@ -86,14 +95,14 @@ public class Client {
         return address;
     }
 
-    public int getTelephone_number() {
+    public String getTelephone_number() {
         return telephone_number;
     }
 
 
 
-    public void setId(long id) {
-        this.id = id;
+    public void setClient_number(long client_number) {
+        this.client_number = client_number;
     }
 
     public void setName(String name) {
@@ -104,7 +113,7 @@ public class Client {
         this.address = address;
     }
 
-    public void setTelephone_number(int telephone_number) {
+    public void setTelephone_number(String telephone_number) {
         this.telephone_number = telephone_number;
     }
 
@@ -127,3 +136,5 @@ public class Client {
     }
 
 }
+
+

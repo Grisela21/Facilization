@@ -1,9 +1,7 @@
 package com.example.ushtr1Java.controller;
 
 import com.example.ushtr1Java.model.Account;
-import com.example.ushtr1Java.model.Client;
 import com.example.ushtr1Java.service.AccountService;
-import com.example.ushtr1Java.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +34,7 @@ public class AccountController {
     @PutMapping("/accounts/{id}")
     public ResponseEntity<Account> updateClient(@PathVariable long id, @RequestBody Account account){
 
-        account.setId(id);
+        account.setAcc_number(id);
         return  ResponseEntity.ok().body(this.accountService.updateAccount(account));
 
     }

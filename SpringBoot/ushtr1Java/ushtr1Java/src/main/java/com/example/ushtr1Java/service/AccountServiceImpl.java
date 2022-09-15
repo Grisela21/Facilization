@@ -2,9 +2,7 @@ package com.example.ushtr1Java.service;
 
 import com.example.ushtr1Java.exception.ResourceNotFoundException;
 import com.example.ushtr1Java.model.Account;
-import com.example.ushtr1Java.model.Client;
 import com.example.ushtr1Java.repository.AccountRepository;
-import com.example.ushtr1Java.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +18,12 @@ public class AccountServiceImpl implements AccountService {
     private AccountRepository accountRepository;
 
 
+
+
+
+
+
+
     @Override
     public Account createAccount(Account account) {
 
@@ -28,11 +32,11 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account updateAccount(Account account) {
-        Optional<Account> accountDb= this.accountRepository.findById(account.getId());
+        Optional<Account> accountDb= this.accountRepository.findById(account.getAcc_number());
 
         if(accountDb.isPresent()){
             Account accountUpdate= accountDb.get();
-            accountUpdate.setId(account.getId());
+            accountUpdate.setAcc_number(account.getAcc_number());
             accountUpdate.setAcc_number(account.getAcc_number());
             accountUpdate.setAmount(account.getAmount());
             accountUpdate.setBranch_code(account.getBranch_code());
@@ -42,7 +46,7 @@ public class AccountServiceImpl implements AccountService {
             return accountUpdate;
         }
         else {
-            throw new ResourceNotFoundException("Record not found wit id: "+account.getId());
+            throw new ResourceNotFoundException("Record not found wit id: "+account.getAcc_number());
         }
     }
 

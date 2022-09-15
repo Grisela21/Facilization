@@ -8,13 +8,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.ListIterator;
 
 @RestController
 public class ClientController {
 
     @Autowired
     private ClientService clientService;
+
+
+    @GetMapping("/client-accounts")
+    public List<ClientAccountDTO> getAllClientAccounts(){
+        return clientService.getAllClientAccounts();
+    }
+
+
 
     @GetMapping("/clients")
    public ResponseEntity<List<Client>> getAllClient(){
@@ -35,7 +42,7 @@ public class ClientController {
     @PutMapping("/clients/{id}")
     public ResponseEntity<Client> updateClient(@PathVariable long id, @RequestBody Client client){
 
-        client.setId(id);
+        client.setClient_number(id);
         return  ResponseEntity.ok().body(this.clientService.updateClient(client));
 
     }
