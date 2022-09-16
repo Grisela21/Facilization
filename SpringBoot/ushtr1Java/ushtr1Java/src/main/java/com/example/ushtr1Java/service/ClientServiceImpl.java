@@ -21,8 +21,8 @@ public class ClientServiceImpl implements ClientService {
     private ClientRepository clientRepository;
 
 
-    public List<ClientAccountDTO>getAllClientAccounts(){
-        return clientRepository.findAll()
+    public List<ClientAccountDTO> getTheMostRecentClientAccount(){
+        return clientRepository.findAll()//kthen nje list te te gjith clienteve
                 .stream()
                 .map(this::convertEntityToDto)
                 .collect(Collectors.toList());
@@ -31,24 +31,18 @@ public class ClientServiceImpl implements ClientService {
 
     private ClientAccountDTO convertEntityToDto(Client client){
         ClientAccountDTO clientAccountDTO= new ClientAccountDTO();
-        clientAccountDTO.setClient_number(client.getClient_number());
-        clientAccountDTO.setName(client.getName());
-        clientAccountDTO.setAcc_number(client.getAccounts().get(0).getAcc_number());
-        clientAccountDTO.setBranch_code(client.getAccounts().get(0).getBranch_code());
-        clientAccountDTO.setAmount(client.getAccounts().get(0).getAmount());
-        clientAccountDTO.setCcy(client.getAccounts().get(1).getCcy());
+
+            clientAccountDTO.setClient_number(client.getClient_number());
+            clientAccountDTO.setName(client.getName());
+            for (int i = 0; i < client.getAccounts().size(); i++){
+            clientAccountDTO.setAcc_number(client.getAccounts().get(i).getAcc_number());
+            clientAccountDTO.setBranch_code(client.getAccounts().get(i).getBranch_code());
+            clientAccountDTO.setAmount(client.getAccounts().get(i).getAmount());
+            clientAccountDTO.setCcy(client.getAccounts().get(i).getCcy());
+        }
+
         return clientAccountDTO;
     }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -68,8 +62,6 @@ public class ClientServiceImpl implements ClientService {
             clientUpdate.setName(client.getName());
             clientUpdate.setAddress(client.getAddress());
             clientUpdate.setTelephone_number(client.getTelephone_number());
-            clientUpdate.setAccounts(client.getAccounts());
-
             clientRepository.save(clientUpdate);
             return clientUpdate;
         }
@@ -80,6 +72,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<Client> getAllClient() {
+        ClientAccountDTO clientAccountDTO= new ClientAccountDTO();
 
         return this.clientRepository.findAll();
     }

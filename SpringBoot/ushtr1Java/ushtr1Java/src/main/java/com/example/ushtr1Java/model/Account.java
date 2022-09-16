@@ -25,12 +25,7 @@ public class Account {
 
     }
     @Id
-    // @GeneratedValue(strategy = GenerationType.AUTO)
     private long acc_number;
-
-
-    //  @Column(name = "acc_number")
-    //  private String acc_number;
 
     @Column(name = "branch_code")
     private String branch_code;
@@ -60,19 +55,11 @@ public class Account {
     private Date updatedAt;
 
 
-    // @ManyToOne
-    //@JoinColumn(name = "client_number", referencedColumnName = "client_number")
-
-
-
 
     public void setAcc_number(long acc_number) {
         this.acc_number = acc_number;
     }
 
-    // public void setAcc_number(String acc_number) {
-    //     this.acc_number = acc_number;
-    //  }
 
     public void setBranch_code(String branch_code) {
         this.branch_code = branch_code;
@@ -90,9 +77,6 @@ public class Account {
         return acc_number;
     }
 
-    //  public String getAcc_number() {
-    //       return acc_number;
-    //   }
 
     public String getBranch_code() {
         return branch_code;

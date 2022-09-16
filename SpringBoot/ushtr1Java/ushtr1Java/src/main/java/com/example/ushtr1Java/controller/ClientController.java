@@ -16,15 +16,18 @@ public class ClientController {
     private ClientService clientService;
 
 
-    @GetMapping("/client-accounts")
+
+    @GetMapping("/client-accounts") //spunon
     public List<ClientAccountDTO> getAllClientAccounts(){
-        return clientService.getAllClientAccounts();
+        return clientService.getTheMostRecentClientAccount();
     }
+
 
 
 
     @GetMapping("/clients")
    public ResponseEntity<List<Client>> getAllClient(){
+
         return ResponseEntity.ok().body(clientService.getAllClient());
     }
 
@@ -39,7 +42,7 @@ public class ClientController {
 
     }
 
-    @PutMapping("/clients/{id}")
+    @PutMapping("/clients/{id}") //spunon
     public ResponseEntity<Client> updateClient(@PathVariable long id, @RequestBody Client client){
 
         client.setClient_number(id);

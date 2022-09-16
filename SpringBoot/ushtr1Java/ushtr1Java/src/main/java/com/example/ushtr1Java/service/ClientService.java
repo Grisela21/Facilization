@@ -16,5 +16,5 @@ public interface ClientService {
 
     void deleteClient(long id);
 
-    List<ClientAccountDTO> getAllClientAccounts();
+    List<ClientAccountDTO> getTheMostRecentClientAccount();
 }

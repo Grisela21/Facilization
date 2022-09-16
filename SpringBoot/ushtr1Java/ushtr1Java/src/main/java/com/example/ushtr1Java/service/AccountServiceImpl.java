@@ -1,7 +1,9 @@
 package com.example.ushtr1Java.service;
 
+import com.example.ushtr1Java.controller.ClientAccountDTO;
 import com.example.ushtr1Java.exception.ResourceNotFoundException;
 import com.example.ushtr1Java.model.Account;
+import com.example.ushtr1Java.model.Client;
 import com.example.ushtr1Java.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -16,11 +19,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private AccountRepository accountRepository;
-
-
-
-
-
 
 
 

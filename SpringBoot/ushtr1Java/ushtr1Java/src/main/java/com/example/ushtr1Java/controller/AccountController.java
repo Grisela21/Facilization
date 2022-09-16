@@ -15,24 +15,27 @@ public class AccountController {
     @Autowired
     private AccountService accountService ;
 
+
+
+
     @GetMapping("/accounts")
-    public ResponseEntity<List<Account>> getAllClient(){
+    public ResponseEntity<List<Account>> getAllAccount(){
         return ResponseEntity.ok().body(accountService.getAllAccount());
     }
 
     @GetMapping("/accounts/{id}")
-    public ResponseEntity<Account> getClientById(@PathVariable long id){
+    public ResponseEntity<Account> getAccountById(@PathVariable long id){
         return ResponseEntity.ok().body(accountService.getAccountById(id));
     }
 
     @PostMapping("/accounts")
-    public  ResponseEntity<Account> createClient(@RequestBody Account account){
+    public  ResponseEntity<Account> createAccount(@RequestBody Account account){
         return  ResponseEntity.ok().body(this.accountService.createAccount(account));
 
     }
 
     @PutMapping("/accounts/{id}")
-    public ResponseEntity<Account> updateClient(@PathVariable long id, @RequestBody Account account){
+    public ResponseEntity<Account> updateAccount(@PathVariable long id, @RequestBody Account account){
 
         account.setAcc_number(id);
         return  ResponseEntity.ok().body(this.accountService.updateAccount(account));
@@ -40,7 +43,7 @@ public class AccountController {
     }
 
     @DeleteMapping("/accounts/{id}")
-    public HttpStatus deleteProduct(@PathVariable long id){
+    public HttpStatus deleteAccount(@PathVariable long id){
         this.accountService.deleteAccount(id);
         return HttpStatus.OK;
     }

@@ -7,11 +7,10 @@ import javax.annotation.sql.DataSourceDefinition;
 @Data
 
 public class ClientAccountDTO {
-    private long client_number;
-    private String name;
     private long acc_number;
     private String branch_code;
     private String ccy;
     private String amount;
-
+    private long client_number;
+    private String name;
 }

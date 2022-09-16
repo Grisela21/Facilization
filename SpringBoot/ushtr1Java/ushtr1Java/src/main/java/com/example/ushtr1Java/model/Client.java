@@ -31,14 +31,9 @@ public class Client {
         this.name=name;
         this.address=address;
         this.telephone_number=telephone_number;
-
     }
     @Id
-    // @GeneratedValue(strategy = GenerationType.AUTO)
     private long client_number;
-
-    //@Column(name = "client_number")
-    //  private String client_number;
 
     @Column(name = "name")
     private String name;
@@ -50,37 +45,35 @@ public class Client {
     private String telephone_number;
 
 
-
-
-
     @CreationTimestamp
     private Date createdAt;
 
     @CreationTimestamp
     private Date updatedAt;
 
-/////lidhja /////////////////////////////////////////////////////////////////////////
 
     @OneToMany(
             targetEntity = Account.class,
-            //mappedBy = "client", //sepse kjo eshte tek acccount si obj
+
             cascade = CascadeType.ALL,
             orphanRemoval = true  //kure fsihet klienti te fshiehn e acc e lidhura
 
     )
     @JoinColumn(name = "client_number", referencedColumnName = "client_number")
-    // @Column(name = "accounts")
     private List<Account> accounts= new ArrayList<>();
 
 
     public List<Account> getAccounts() {
+
         return accounts;
     }
 
 
 
     public void setAccounts(List<Account> accounts) {
-        this.accounts = accounts;
+
+        this.accounts.clear();
+        this.accounts.addAll(accounts);
     }
 
     public long getClient_number() {
