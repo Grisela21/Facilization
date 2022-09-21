@@ -17,8 +17,9 @@ public class ClientController {
 
 
 
-    @GetMapping("/client-accounts") //spunon
+    @GetMapping("/client-accounts")
     public List<ClientAccountDTO> getAllClientAccounts(){
+
         return clientService.getTheMostRecentClientAccount();
     }
 
@@ -42,7 +43,7 @@ public class ClientController {
 
     }
 
-    @PutMapping("/clients/{id}") //spunon
+    @PutMapping("/clients/{id}")
     public ResponseEntity<Client> updateClient(@PathVariable long id, @RequestBody Client client){
 
         client.setClient_number(id);

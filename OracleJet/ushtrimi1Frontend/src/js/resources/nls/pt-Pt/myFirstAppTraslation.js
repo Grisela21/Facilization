@@ -1,0 +1,6 @@
+define({
+   
+    inputs: {
+        firstName:"Name"
+    }
+        });

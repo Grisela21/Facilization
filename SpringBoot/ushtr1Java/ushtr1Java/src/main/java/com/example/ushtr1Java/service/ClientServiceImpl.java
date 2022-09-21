@@ -62,6 +62,7 @@ public class ClientServiceImpl implements ClientService {
             clientUpdate.setName(client.getName());
             clientUpdate.setAddress(client.getAddress());
             clientUpdate.setTelephone_number(client.getTelephone_number());
+            clientUpdate.setAccounts(client.getAccounts());
             clientRepository.save(clientUpdate);
             return clientUpdate;
         }
@@ -72,7 +73,6 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<Client> getAllClient() {
-        ClientAccountDTO clientAccountDTO= new ClientAccountDTO();
 
         return this.clientRepository.findAll();
     }

@@ -1,0 +1,46 @@
+<!--
+ Copyright (c) 2014, 2022, Oracle and/or its affiliates.
+ Licensed under The Universal Permissive License (UPL), Version 1.0
+ as shown at https://oss.oracle.com/licenses/upl/
+ -->
+
+ <oj-form-layout id="formLayoutOptions" max-columns="10" 
+ direction="row" user-assistance-density="compact"
+ class="obj-formlayout-full-width"><!--class shton stailizimet-->
+
+ <!--[[]]->readonly -->
+<oj-input-text :id="[[inputNameId]]" value="{{inputNameValue}}"
+   label-hint="Name" on-value-changed="[[onInputNameValueChange]]" 
+  >
+ </oj-input-text>
+
+
+<oj-input-text :id="[[inputLastNameId]]" value="{{inputLastNameValue}}"
+   disabled="[[isInputLastNameDisabled]]" label-hint="LastName">
+</oj-input-text>
+
+<oj-input-date-time label-hint="Enabled no value" autocomplete="off"></oj-input-date-time>
+
+<oj-input-date-time :id="[[inputBirthdayId]]" label-hint="Enabled no value"  autocomplete="off" value="{{inputBirthdayValue}}"
+ label-hint="Birthday"></oj-input-date-time>
+
+<!--<oj-combobox-one :id="[[inputGenderId]]" readonly value="{{inputGenderValue}}" label-hint="readonly"
+class="oj-form-control-max-width-md">
+<oj-option value="Female">Female</oj-option>
+<oj-option value="Male">Male</oj-option>
+<oj-option value="Other">Other</oj-option>
+
+</oj-combobox-one>-->
+
+<oj-input-text :id="[[inputBirthplaceId]]" value="{{inputBirthplaceValue}}"
+    label-hint="Birthplace">
+</oj-input-text>
+
+</oj-input-number>
+<oj-input-number :id="[[inputAgeId]]" value="{{inputAgeValue}}"
+ label-hint="Age"> 
+ <span>
+<oj-bind-text value="[[inputNameValue]]"></oj-bind-text> <!--kjo  ben shfaqjen jahst labelit-->
+</span>
+
+

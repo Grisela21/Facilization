@@ -23,6 +23,7 @@ public class Client {
     }
 
     public Client(long client_number) {
+
         this.client_number=client_number;
     }
 

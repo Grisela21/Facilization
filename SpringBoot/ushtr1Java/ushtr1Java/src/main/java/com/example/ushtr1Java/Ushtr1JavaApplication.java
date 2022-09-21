@@ -54,29 +54,29 @@ public class Ushtr1JavaApplication implements CommandLineRunner {
 
 
 
-
-		Client client= new Client();
-		client.setClient_number(600);
-		client.setName("Banko");
-		client.setAddress("Tirane");
-		client.setTelephone_number("345678");
-		clientRepository.save(client);
-
-
-		Client client2= new Client();
-		client.setClient_number(700);
-		client.setName("Goku");
-		client.setAddress("Tirane");
-		client.setTelephone_number("345678");
-		clientRepository.save(client);
-
-
-		Account account= new Account();
-		account.setAcc_number(5678);
-		account.setBranch_code("000");
-		account.setAmount("3000");
-		account.setCcy("EUR");
-		account.setClient_number(600);
-		accountRepository.save(account);
+//
+//		Client client= new Client();
+//		client.setClient_number(600);
+//		client.setName("Banko");
+//		client.setAddress("Tirane");
+//		client.setTelephone_number("345678");
+//		clientRepository.save(client);
+//
+//
+//		Client client2= new Client();
+//		client.setClient_number(700);
+//		client.setName("Goku");
+//		client.setAddress("Tirane");
+//		client.setTelephone_number("345678");
+//		clientRepository.save(client);
+//
+//
+//		Account account= new Account();
+//		account.setAcc_number(5678);
+//		account.setBranch_code("000");
+//		account.setAmount("3000");
+//		account.setCcy("EUR");
+//		account.setClient_number(600);
+//		accountRepository.save(account);
 	}
 }
