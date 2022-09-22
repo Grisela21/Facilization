@@ -4,43 +4,97 @@
  as shown at https://oss.oracle.com/licenses/upl/
  -->
 
- <oj-form-layout id="formLayoutOptions" max-columns="10" 
- direction="row" user-assistance-density="compact"
+ <oj-form-layout id="formLayoutOptions" max-columns="1" 
+ direction="row" user-assistance-density="efficient"
  class="obj-formlayout-full-width"><!--class shton stailizimet-->
 
  <!--[[]]->readonly -->
 <oj-input-text :id="[[inputNameId]]" value="{{inputNameValue}}"
-   label-hint="Name" on-value-changed="[[onInputNameValueChange]]" 
+   label-hint="Name"  validators="[[inputFirstNameValidators]]" on-value-changed="[[onInputNameValueChange]]" 
   >
  </oj-input-text>
 
 
 <oj-input-text :id="[[inputLastNameId]]" value="{{inputLastNameValue}}"
-   disabled="[[isInputLastNameDisabled]]" label-hint="LastName">
+   disabled="[[isInputLastNameDisabled]]" validators="[[inputLastNameValidators]]" label-hint="LastName">
 </oj-input-text>
 
-<oj-input-date-time label-hint="Enabled no value" autocomplete="off"></oj-input-date-time>
+<oj-input-date :id="[[inputBirthdayId]]" label-hint="Birthday"  
+autocomplete="off" value="{{inputBirthdayValue}}" max="[[inputBirthdayMaxValue]]"
+ label-hint="Birthday"></oj-input-date>
 
-<oj-input-date-time :id="[[inputBirthdayId]]" label-hint="Enabled no value"  autocomplete="off" value="{{inputBirthdayValue}}"
- label-hint="Birthday"></oj-input-date-time>
-
-<!--<oj-combobox-one :id="[[inputGenderId]]" readonly value="{{inputGenderValue}}" label-hint="readonly"
-class="oj-form-control-max-width-md">
-<oj-option value="Female">Female</oj-option>
+<oj-select-single :id="[[inputGenderId]]"
+  value="{{inputGenderValue}}" 
+ label-hint="Gender"
+ data="[[inputGenderDataProvider]]"
+>
+<!--<oj-option value="Female">Female</oj-option>
 <oj-option value="Male">Male</oj-option>
 <oj-option value="Other">Other</oj-option>
+ -->
 
-</oj-combobox-one>-->
+</oj-select-single>
 
 <oj-input-text :id="[[inputBirthplaceId]]" value="{{inputBirthplaceValue}}"
     label-hint="Birthplace">
 </oj-input-text>
 
-</oj-input-number>
+
 <oj-input-number :id="[[inputAgeId]]" value="{{inputAgeValue}}"
- label-hint="Age"> 
+ step="1" min="0"  label-hint="Age"> 
+</oj-input-number>
+
+ </oj-form-layout>
+
+ <div 
+   class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-flex-end">
+   <div class="oj-flex-item oj-sm-padding-2x-horizontal">
+       <oj-button id="button1" on-oj-action="[[onCreateButtonClick]]">Save</oj-button>
+
+
+   </div>
+</div>
+
+ <!--<span>
+   <oj-bind-text value="[[createButtonLabel]]"></oj-bind-text> 
+   kjo  ben shfaqjen jahst labelit
+
+ </span>-->
  <span>
-<oj-bind-text value="[[inputNameValue]]"></oj-bind-text> <!--kjo  ben shfaqjen jahst labelit-->
+<oj-bind-text value="[[inputBirthdayValue]]"></oj-bind-text> <!--kjo  ben shfaqjen jahst labelit-->
 </span>
 
+
+<oj-table
+              id="table"
+              aria-label="Departments Table"
+              accessibility.row-header="column3"
+              data="[[datasource]]"
+              columns='[
+                      {"headerText": "Department Id", "id": "column2",
+                       "field": "DepartmentId", "sortable": "enabled"},
+                      {"headerText": "Department Name", "id": "column3",
+                       "field": "DepartmentName", "sortable": "enabled"}
+                       ]'
+              selection-mode='{"row": "none", "column": "none"}'>
+              <template slot="rowTemplate" data-oj-as="row">
+                <tr>
+             
+                  <td>
+                    <div
+                      id="deptId"
+                     >
+                      <oj-bind-text value="[[row.data.DepartmentId]]"></oj-bind-text>
+                    </div>
+                  </td>
+                  <td>
+                    <div
+                      id="deptName"
+                     >
+                      <oj-bind-text value="[[row.data.DepartmentName]]"></oj-bind-text>
+                    </div>
+                  </td>
+                </tr>
+              </template>
+            </oj-table>
 

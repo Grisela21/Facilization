@@ -12,25 +12,53 @@ define([
 
   "knockout",
 "utils/Core",
-"ojs/ojconverter-datetime", 
+
+"ojs/ojasyncvalidator-length",
+"ojs/ojarraydataprovider",
 "ojs/ojinputtext",
 "ojs/ojinputnumber",
-//"ojs/ojinputdate",
-//"ojs/ojcomboboxone",
-"ojs/ojformlayout"
-
+"ojs/ojformlayout",
+"ojs/ojdatetimepicker",
+"ojs/ojselectsingle",
+"ojs/ojbutton",
+"ojs/ojcollectiondataprovider", 
+"ojs/ojtable"
 ],
  function(
 
   ko,
   CoreUtils,
-
+  AsyncLengthValidator,
+  ArrayDataProvider,
+  CollectionDataProvider
   ) {
     function CustomerViewModel() { //we are creating a class
 
           this._initAllObservables(); 
           this._initAllIds();
+          this._initValidators();
+          this._initVariables();
           
+        //  this.onCreateButtonClick= this._onCreateButtonClick.bind(this);
+           this.onCreateButtonClick = () => {
+        const recordAttrs = {
+            DepartmentId: this.inputNameValue(),
+            DepartmentName: this.inputLastNameValue()
+        };
+        this.DeptCol().create(recordAttrs, {
+            wait: true,
+            contentType: 'application/vnd.oracle.adf.resource+json',
+            success: (model, response) => { },
+            error: (jqXHR, textStatus, errorThrown) => { }
+        });
+        this.DeptCol(new this.DeptCollection());
+        new MockRESTServer(JSON.parse(jsonData), {
+            id: 'DepartmentId',
+            url: /^http:\/\/mockrest\/stable\/rest\/Departments(\?limit=([\d]*))?$/i,
+            idUrl: /^http:\/\/mockrest\/stable\/rest\/Departments\/([\d]+)$/i
+        });
+        this.datasource(new CollectionDataProvider(this.DeptCol()));
+    };
     }
 
  /**
@@ -42,27 +70,109 @@ define([
 
     //when you are trying to use a variable to assign id you need to bindi it 
     //using column notation
-    // CustomerViewModel.prototype._initValidators= function(){
+    CustomerViewModel.prototype._initValidators= function(){
            
-    //   this.inputFirstNameValidators= ko.observableArray([
-    //     new AsyncLengthValidator({
-    //       min:5, 
-    //       max:16,
-    //       hint: {
-    //         inRange:"Custom hint: value must be at least 16 charachter",
-    //       },
-    //       messageSummary:{
-    //         tooLong: "Custom:Too many charachters",
-    //         tooShort: "Custom: Too few charachters",
-    //       },
-    //       messageDetail:{
-    //         tooLong:"Custom: Number of charachters is too high",
-    //         tooShort: "Custom: umber of charachters is too low",
-    //       },
-    //     }),
-    //   ]);
+      this.inputFirstNameValidators= ko.observableArray([
+        new AsyncLengthValidator({
+          min:3,
+          max:35,
+          hint: {
+            inRange:"Custom hint: value must be at least  {min} and at most  {max} charachter  ",
+          },
+          messageSummary:{
+            tooLong: "Custom:Too many characters",
+            tooShort: "Custom:Too few characters",
+          
+          },
+          messageDetail:{
+            tooLong:"Custom: Number of characters is too high. Enter at most {max} charachters",
+            tooShort:"Custom: Number of characters is too low. Enter at least {min} charachters",
+          },
+        }),
+      ]);
+      
+      this.inputLastNameValidators= ko.observableArray([
+        new AsyncLengthValidator({
+          min:3,
+          max:35,
+          hint: {
+            inRange:"Custom hint: value must be at least  {min} and at most  {max} charachter  ",
+          },
+          messageSummary:{
+            tooLong: "Custom:Too many charachters",
+            tooShort: "Custom:Too few charachters",
+          
+          },
+          messageDetail:{
+            tooLong:"Custom: Number of charachters is too high. Enter at most {max} charachters",
+            tooShort:"Custom: Number of charachters is too low. Enter at least {min} charachters",
+          },
+        }),
+      ]);
   
+    };
+
+/**
+     * @function _onCreateButtonClick
+     * @description 
+     * 
+     * 
+     */
+
+    //when you are trying to use a variable to assign id you need to bindi it 
+    //using column notation
+
+
+
+    // CustomerViewModel.prototype._onCreateButtonClick= function(){    
+     
+    //   alert('button pressed');
+   
     // };
+
+
+
+
+
+
+
+    /**
+     * @function _initVariables
+     * @description Initializes all variables.
+     * 
+     * 
+     */
+
+    //when you are trying to use a variable to assign id you need to bindi it 
+    //using column notation
+    CustomerViewModel.prototype._initVariables= function(){
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+      
+      today = yyyy + '-' + mm + '-' + dd;
+      console.log(today);
+           this.inputBirthdayMaxValue= today;
+    
+    //per gender
+    this.inputGenderDataProvider=new ArrayDataProvider([
+      {
+        value: 1,
+        label: 'Female'
+      },
+      {
+        value:2,
+        label:'Male'
+      },
+      {
+        value:3,
+        label:'Other'
+      }
+    ],{
+      keyAttributes:"value",
+    });
+    };
 
 
     /**
@@ -105,6 +215,8 @@ define([
       this.inputBirthplaceValue= ko.observable(null);
       this.inputAgeValue= ko.observable(null);
       this.isInputLastNameDisabled= ko.observable(true);
+      this.DeptCol = ko.observable();
+      this.datasource=ko.observable();
 
   
      
