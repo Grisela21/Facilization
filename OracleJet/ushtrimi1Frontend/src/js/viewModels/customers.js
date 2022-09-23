@@ -8,6 +8,7 @@
 /*
  * Your customer ViewModel code goes here
  */
+//This class is exported directly as module. To import it
 define([
 
   "knockout",
@@ -21,8 +22,9 @@ define([
 "ojs/ojdatetimepicker",
 "ojs/ojselectsingle",
 "ojs/ojbutton",
-"ojs/ojcollectiondataprovider", 
-"ojs/ojtable"
+"ojs/ojtable",
+"ojs/ojchart"
+
 ],
  function(
 
@@ -30,7 +32,9 @@ define([
   CoreUtils,
   AsyncLengthValidator,
   ArrayDataProvider,
-  CollectionDataProvider
+  vajza=0,
+  djem=1,
+  pie=[]
   ) {
     function CustomerViewModel() { //we are creating a class
 
@@ -39,27 +43,118 @@ define([
           this._initValidators();
           this._initVariables();
           
-        //  this.onCreateButtonClick= this._onCreateButtonClick.bind(this);
-           this.onCreateButtonClick = () => {
-        const recordAttrs = {
-            DepartmentId: this.inputNameValue(),
-            DepartmentName: this.inputLastNameValue()
-        };
-        this.DeptCol().create(recordAttrs, {
-            wait: true,
-            contentType: 'application/vnd.oracle.adf.resource+json',
-            success: (model, response) => { },
-            error: (jqXHR, textStatus, errorThrown) => { }
-        });
-        this.DeptCol(new this.DeptCollection());
-        new MockRESTServer(JSON.parse(jsonData), {
-            id: 'DepartmentId',
-            url: /^http:\/\/mockrest\/stable\/rest\/Departments(\?limit=([\d]*))?$/i,
-            idUrl: /^http:\/\/mockrest\/stable\/rest\/Departments\/([\d]+)$/i
-        });
-        this.datasource(new CollectionDataProvider(this.DeptCol()));
+        
+      console.log("Girls without commitments "+vajza);
+         
+      var deptArray = [];
+      this.deptObservableArray = ko.observableArray(deptArray);
+      this.dataprovider = new ArrayDataProvider(this.deptObservableArray, { keyAttributes: 'Name' });
+      this.groupValid = ko.observable();
+      this.isEmptyTable = ko.computed(function () {
+        return this.deptObservableArray().length === 0;
+      }, this);
+      // add to the observableArray
+     // this.addRow= this._onCreateButtonClick.bind(this);
+      pie=[{
+      id: 0,
+      series: "Female",
+      group: "Group A",
+      value: vajza
+      },
+ 
+      {
+      id: 1,
+      series: "Male",
+      group: "Group A",
+      value: djem
+      }] 
+      console.log(pie[1].value);
+      var chartData = ko.observableArray(pie);
+
+      this.dProvider = new ArrayDataProvider( chartData, {
+      keyAttributes: "id",
+      });
+
+      console.log(this.dProvider);
+
+      ///therritja e  butonit
+      this.addRow=function(){
+      var dept = {
+        
+      Name: this.inputNameValue(),
+      LastName: this.inputLastNameValue(),
+      Birthday: this.inputBirthdayValue(),
+      Gender: this.inputGenderValue(),
+      BirthdayPlace: this.inputBirthplaceValue(),
+      Age: this.inputAgeValue()
     };
+    if(dept.Name!=null){
+        this.deptObservableArray.push(dept); 
     }
+   
+     console.log("deptArray[i].Name");
+    console.log(deptArray[0].Name);
+    console.log(dept.Name);
+
+    var count=0;
+    for(var i=0; i<deptArray.length-1; i++){
+      if(deptArray[i].Name==dept.Name){
+        count++;
+      }
+      else{
+        count=0;
+      }
+    }
+
+    if(dept.Gender=="Female"&&count==0){
+      vajza++; 
+      console.log("Girls after adding "+vajza);
+    }
+    if(dept.Gender=="Male" &&count==0){
+       djem++;
+       console.log("Boys after adding "+djem);
+     }
+
+    pie[0].value=vajza;
+    pie[1].value=djem;
+    console.log(pie);
+
+    valueCache = {};
+    chartData(pie);
+  
+    console.log(this.dProvider);
+
+    console.log("Vector after  "+pie[0].value);
+    console.log("array i fillimit");
+    console.log(deptArray);
+
+   }.bind(this);
+   
+   
+}
+
+// function ChartModel() {
+
+// pie=[{
+//       id: 0,
+//       series: "Female",
+//       group: "Group A",
+//       value: vajza
+//     },
+ 
+//     {
+//       id: 1,
+//       series: "Male",
+//       group: "Group A",
+//       value: djem
+//     }]
+// console.log(pie[1].value);
+// this.dProvider = new ArrayDataProvider( pie, {
+//     keyAttributes: "id",
+// });
+// }
+
+
 
  /**
      * @function _initValidators
@@ -112,29 +207,14 @@ define([
   
     };
 
-/**
-     * @function _onCreateButtonClick
-     * @description 
-     * 
-     * 
-     */
+
 
     //when you are trying to use a variable to assign id you need to bindi it 
     //using column notation
 
 
 
-    // CustomerViewModel.prototype._onCreateButtonClick= function(){    
-     
-    //   alert('button pressed');
-   
-    // };
-
-
-
-
-
-
+  
 
     /**
      * @function _initVariables
@@ -164,13 +244,9 @@ define([
       {
         value:2,
         label:'Male'
-      },
-      {
-        value:3,
-        label:'Other'
       }
     ],{
-      keyAttributes:"value",
+      keyAttributes:"label",
     });
     };
 
@@ -215,8 +291,8 @@ define([
       this.inputBirthplaceValue= ko.observable(null);
       this.inputAgeValue= ko.observable(null);
       this.isInputLastNameDisabled= ko.observable(true);
-      this.DeptCol = ko.observable();
-      this.datasource=ko.observable();
+      this.dProvider =ko.observable();
+   
 
   
      

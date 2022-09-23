@@ -49,7 +49,8 @@ autocomplete="off" value="{{inputBirthdayValue}}" max="[[inputBirthdayMaxValue]]
  <div 
    class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-flex-end">
    <div class="oj-flex-item oj-sm-padding-2x-horizontal">
-       <oj-button id="button1" on-oj-action="[[onCreateButtonClick]]">Save</oj-button>
+      <!-- <oj-button id="button1" on-oj-action="[[onCreateButtonClick]]">Save</oj-button> -->
+      <oj-button id='addbutton' on-oj-action='[[addRow]]'>Create</oj-button>
 
 
    </div>
@@ -64,37 +65,48 @@ autocomplete="off" value="{{inputBirthdayValue}}" max="[[inputBirthdayMaxValue]]
 <oj-bind-text value="[[inputBirthdayValue]]"></oj-bind-text> <!--kjo  ben shfaqjen jahst labelit-->
 </span>
 
+<div id='tableContainer' class='oj-xl-8 oj-lg-8 oj-md-8 oj-flex-item'>
+  <oj-table id="table" aria-label="Departments Table"
+          data='[[dataprovider]]'
+          columns-default='{"sortable": "disabled"}' 
+          columns='[
+                  {"headerText": "Name", 
+                  "field": "Name"},
+                  {"headerText": "Last Name", 
+                  "field": "LastName"},
+                  {"headerText": "Birthday", 
+                  "field": "Birthday"},
+                  {"headerText": "Gender", 
+                  "field": "Gender"},
+                  {"headerText": "Birthday Place", 
+                  "field": "BirthdayPlace"},
+                  {"headerText": "Age", 
+                  "field": "Age"}]'
+                  
+          style='width: 100%; height:100%;'>
+  </oj-table>
+  
+  <div id="noDataDiv" class='no-data-container'>
+      <span>No data available. Please use the form controls to create a new row.</span>
+  </div>
+</div>
 
-<oj-table
-              id="table"
-              aria-label="Departments Table"
-              accessibility.row-header="column3"
-              data="[[datasource]]"
-              columns='[
-                      {"headerText": "Department Id", "id": "column2",
-                       "field": "DepartmentId", "sortable": "enabled"},
-                      {"headerText": "Department Name", "id": "column3",
-                       "field": "DepartmentName", "sortable": "enabled"}
-                       ]'
-              selection-mode='{"row": "none", "column": "none"}'>
-              <template slot="rowTemplate" data-oj-as="row">
-                <tr>
-             
-                  <td>
-                    <div
-                      id="deptId"
-                     >
-                      <oj-bind-text value="[[row.data.DepartmentId]]"></oj-bind-text>
-                    </div>
-                  </td>
-                  <td>
-                    <div
-                      id="deptName"
-                     >
-                      <oj-bind-text value="[[row.data.DepartmentName]]"></oj-bind-text>
-                    </div>
-                  </td>
-                </tr>
-              </template>
-            </oj-table>
 
+
+<div id="chart-container">
+  <oj-chart
+    id="pieChart"
+    type="pie"
+    data="[[dProvider]]"
+    animation-on-display="auto"
+    animation-on-data-change="auto"
+   >
+    <template slot="itemTemplate" data-oj-as="item">
+      <oj-chart-item
+        value="[[item.data.value]]"
+        group-id="[[ [item.data.group] ]]"
+        series-id="[[item.data.series]]"></oj-chart-item>
+    </template>
+  </oj-chart>
+
+</div>
